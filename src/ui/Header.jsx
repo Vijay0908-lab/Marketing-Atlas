@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import logoImage from "../assets/Marketing-logo.png";
+import logoImage from "../assets/images/Marketing-logo.png";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -8,16 +8,16 @@ const StyledHeader = styled.header`
   align-items: center;
   padding: 1.5rem 5%;
   background-color: #fff;
-  border-bottom: 1px solid #e5e5e5;
+  // border-bottom: 1px solid #e5e5e5;
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
 
-  svg {
-    width: 50px;
-    height: 50px;
+  img {
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -44,7 +44,7 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const ConnectButton = styled.button`
-  background-color: #e63946;
+  background-color: var(--color-red-500);
   color: white;
   border: none;
   padding: 0.75rem 2rem;
@@ -67,10 +67,10 @@ function Header() {
       </Logo>
 
       <Nav>
-        <StyledNavLink to="/about">About Us</StyledNavLink>
-        <StyledNavLink to="/service">For Villa Owners</StyledNavLink>
+        <StyledNavLink to="/villa-owner">For Villa Owners</StyledNavLink>
         <StyledNavLink to="/marketing-atlas">Property Marketing</StyledNavLink>
-        <StyledNavLink to="/dashboard">Our Services</StyledNavLink>
+        <StyledNavLink to="/service">Our Services</StyledNavLink>
+        <StyledNavLink to="/about">About Us</StyledNavLink>
         <ConnectButton>Connect Us</ConnectButton>
       </Nav>
     </StyledHeader>

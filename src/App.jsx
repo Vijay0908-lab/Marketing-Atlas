@@ -5,11 +5,11 @@ import Applayout from "./ui/Applayout";
 import GlobalStyles from "./styles/globalStyles";
 import Dashboard from "./pages/Dashboard";
 import MarketingAtlas from "./pages/Marketing-Atlas";
-import Advertising from "./pages/real-estate/advertising";
-import Branding from "./pages/real-estate/branding";
-import ProfessionalMarketing from "./pages/real-estate/pro-marketing";
-import Service from "./pages/villa-owner/service";
-import AboutOwner from "./pages/villa-owner/about";
+import Advertising from "./pages/advertising";
+import Branding from "./pages/branding";
+import ProfessionalMarketing from "./pages/pro-marketing";
+import Service from "./pages/service";
+import AboutOwner from "./pages/about";
 
 function App() {
   return (
