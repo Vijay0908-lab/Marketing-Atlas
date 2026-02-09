@@ -1,34 +1,30 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { DarkModeProvider } from "./context/DarkModeContext";
-import Applayout from "./ui/Applayout";
-import GlobalStyles from "./styles/globalStyles";
-import Dashboard from "./pages/Dashboard";
-import MarketingAtlas from "./pages/Marketing-Atlas";
-import Advertising from "./pages/advertising";
-import Branding from "./pages/branding";
-import ProfessionalMarketing from "./pages/pro-marketing";
-import Service from "./pages/service";
-import AboutOwner from "./pages/about";
 
+import GlobalStyles from "./styles/globalStyles";
+import Home from "./pages/Home";
+import VillaOwner from "./pages/Villa-Owners";
+import ProMarketing from "./pages/Property-marketing";
+import Services from "./pages/Services";
+import NavBar from "./ui/Header";
+import SignUp from "./pages/Sign-Up";
+import Footer from "./ui/Footer"; 
 function App() {
   return (
     <DarkModeProvider>
       <GlobalStyles />
-      <BrowserRouter>
+    
+        <NavBar />
         <Routes>
-          <Route element={<Applayout />}>
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="marketing-atlas" element={<MarketingAtlas />} />
-            <Route path="advertising" element={<Advertising />} />
-            <Route path="branding" element={<Branding />} />
-            <Route path="pro-marketing" element={<ProfessionalMarketing />} />
-            <Route path="service" element={<Service />} />
-            <Route path="about" element={<AboutOwner />} />
-          </Route>
+          <Route path="/" element={<Home />} /> 
+          <Route path="/service" element={<Services />} />
+          <Route path="/property-marketing" element={<ProMarketing />} />
+          <Route path="/villa-owner" element={<VillaOwner />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
-      </BrowserRouter>
+        <Footer />
+      
     </DarkModeProvider>
   );
 }
