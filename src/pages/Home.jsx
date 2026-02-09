@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import heroBg from "../assets/images/Marketing-Home.avif"; 
-import Services from "./Services";
+import Services from "./services";
 
 const HeroContainer = styled.section`
   height: 90vh; /* Adjust based on your header height */

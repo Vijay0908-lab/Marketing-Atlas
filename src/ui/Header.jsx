@@ -1,15 +1,29 @@
+import { useState, useEffect } from "react";
 import { NavLink , Link } from "react-router-dom";
 import { Phone } from "lucide-react";
 import styled from "styled-components";
 import logoImage from "../assets/images/Marketing-logo.png";
 
 const StyledHeader = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 5%;
-  background-color:#101826;
-  // border-bottom: 1px solid #e5e5e5;
+  transition: all 0.4s ease-in-out; /* Controls the smooth transition */
+
+  /* If scrolled, use Navy Blue; if not, stay transparent */
+  background-color: ${props => props.$scrolled ? "#101826" : "transparent"};
+  
+  /* Adds a subtle blur effect when transparent for a premium feel */
+  backdrop-filter: ${props => props.$scrolled ? "none" : "none"};
+  
+  /* Shadow only appears after scrolling */
+  box-shadow: ${props => props.$scrolled ? "0 4px 20px rgba(0,0,0,0.3)" : "none"};
 `;
 
 const Logo = styled.div`
@@ -29,14 +43,15 @@ const Nav = styled.nav`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  color: white;
+  /* Efficient font color change: White when transparent, slightly muted when on Navy */
+  color: white; 
   text-decoration: none;
-  font-size:1.5rem;
+  font-size: 1.5rem;
   font-weight: 500;
   transition: color 0.3s;
 
   &:hover {
-    color: #e63946;
+    color: #e63946; /* Brand red from your UI */
   }
 
   &.active {
@@ -63,8 +78,25 @@ const ConnectButton = styled.button`
   }
 `
 function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Logic to trigger transition at roughly 20% of viewport height
+      if (window.scrollY > window.innerHeight * 0.2) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   return (
-    <StyledHeader>
+    <StyledHeader $scrolled={isScrolled}>
      <Link to="/">
         <Logo>
           <img src={logoImage} alt="Logo" />

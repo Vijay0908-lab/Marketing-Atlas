@@ -44,7 +44,7 @@ const GridContainer = styled.div`
 `;
 const ServiceCard = styled.div`
   /* Gradient background matching your UI image */
-  background: linear-gradient(135deg, #2d1b1e 0%, #e63946 100%);
+  background: #be3c2e;
   padding: 3rem 2rem;
   border-radius: 20px;
   color: white;
