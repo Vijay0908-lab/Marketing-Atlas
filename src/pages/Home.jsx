@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import heroBg from "../assets/images/Marketing-Home.avif"; 
 import Services from "./services";
-
+import RecentWork from "../ui/RecentWork";
 const HeroContainer = styled.section`
   height: 90vh; /* Adjust based on your header height */
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
@@ -103,6 +103,9 @@ function Home() {
     </HeroContainer>
     <div id="services-section">
         <Services />
+      </div>
+      <div id="recent-work-section">
+        <RecentWork />
       </div>
       </>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink , Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom"; // Added useLocation
 import { Phone } from "lucide-react";
 import styled from "styled-components";
 import logoImage from "../assets/images/Marketing-logo.png";
@@ -13,23 +13,20 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
-  transition: all 0.4s ease-in-out; /* Controls the smooth transition */
+  padding: ${props => props.$scrolled ? "1rem 5%" : "1.5rem 5%"};
+  transition: all 0.4s ease-in-out;
 
-  /* If scrolled, use Navy Blue; if not, stay transparent */
-  background-color: ${props => props.$scrolled ? "#101826" : "transparent"};
+  /* Transparent ONLY if on Home AND not scrolled. Otherwise, Navy Blue. */
+  background-color: ${props => (props.$isHome && !props.$scrolled) ? "transparent" : "#101826"};
   
-  /* Adds a subtle blur effect when transparent for a premium feel */
-  backdrop-filter: ${props => props.$scrolled ? "none" : "none"};
-  
-  /* Shadow only appears after scrolling */
   box-shadow: ${props => props.$scrolled ? "0 4px 20px rgba(0,0,0,0.3)" : "none"};
 `;
+
+// ... (Logo, Nav, StyledNavLink, ConnectButton styles remain the same)
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
-
   img {
     width: 60px;
     height: 40px;
@@ -43,24 +40,19 @@ const Nav = styled.nav`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  /* Efficient font color change: White when transparent, slightly muted when on Navy */
   color: white; 
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Adjusted from 1.5rem for better fit */
   font-weight: 500;
   transition: color 0.3s;
 
-  &:hover {
-    color: #e63946; /* Brand red from your UI */
-  }
-
-  &.active {
+  &:hover, &.active {
     color: #e63946;
   }
 `;
 
 const ConnectButton = styled.button`
-  background-color: #e63946; /* Using your red color directly */
+  background-color: #e63946;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -71,19 +63,23 @@ const ConnectButton = styled.button`
   transition: background-color 0.3s;
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Gap between icon and text */
+  gap: 0.5rem;
 
   &:hover {
     background-color: #d62839;
   }
-`
+`;
+
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  
+  // Check if current path is exactly "/"
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
-      // Logic to trigger transition at roughly 20% of viewport height
-      if (window.scrollY > window.innerHeight * 0.2) {
+      if (window.scrollY > 50) { // Trigger sooner for better UX
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -94,10 +90,9 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   return (
-    <StyledHeader $scrolled={isScrolled}>
-     <Link to="/">
+    <StyledHeader $scrolled={isScrolled} $isHome={isHome}>
+      <Link to="/">
         <Logo>
           <img src={logoImage} alt="Logo" />
         </Logo>
@@ -107,10 +102,10 @@ function Header() {
         <StyledNavLink to="/villa-owner">For Villa Owners</StyledNavLink>
         <StyledNavLink to="/property-marketing">Property Marketing</StyledNavLink>
         <StyledNavLink to="/service">Our Services</StyledNavLink>
-          <StyledNavLink to="/sign-up">Sign-Up</StyledNavLink>
-       <a href="tel:+918591131447" style={{ textDecoration: 'none' }}>
+        <StyledNavLink to="/sign-up">Sign-Up</StyledNavLink>
+        <a href="tel:+918591131447" style={{ textDecoration: 'none' }}>
           <ConnectButton>
-            <Phone size={18} /> {/* The Call Icon */}
+            <Phone size={18} />
             Call-Us
           </ConnectButton>
         </a>
