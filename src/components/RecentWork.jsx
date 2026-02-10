@@ -103,9 +103,9 @@ const Card = styled.div`
   border: 1px solid #eee;
 
   /* Blurred State for non-active slides */
-  filter: blur(2px);
-  transform: scale(0.85);
-  opacity: 0.5;
+  filter: blur(0px);
+  transform: scale(0.95);
+  opacity: 1;
 `;
 
 const StyledSwiper = styled(Swiper)`

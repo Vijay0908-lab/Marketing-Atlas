@@ -3,7 +3,7 @@ import { Rocket, Layers, Lightbulb, BarChart3 } from "lucide-react";
 
 const ServicesSection = styled.section`
   padding: 5rem 5%;
-  background-color: #f9f9f9; /* Light background to contrast with the dark cards */
+  background-color: #f9f9f9;
   text-align: center;
 `;
 
@@ -25,54 +25,61 @@ const SectionHeader = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  gap: 2.5rem; /* Increased gap for a more premium feel */
-  max-width: 1200px; /* Increased max-width to allow growth */
+  gap: 2rem; 
+  max-width: 1400px; /* Wider container for 4 columns */
   margin: 0 auto;
 
-  /* Mobile First: 1 column by default */
-  grid-template-columns: 1fr;
+  /* BIG SCREENS: 4 Columns */
+  grid-template-columns: repeat(4, 1fr);
 
-  /* Small tablets: 2 columns */
-  @media (min-width: 640px) {
+  /* SMALLER SCREENS / TABLETS: 2 Columns */
+  @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
-  /* Desktop: 3 columns (This makes the layout "grow" horizontally/vertically) */
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+  /* MOBILE DEVICES: 1 Column */
+  @media (max-width: 600px) {
+   grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
   }
 `;
+
 const ServiceCard = styled.div`
-  /* Gradient background matching your UI image */
-  background: #be3c2e;
-  padding: 3rem 2rem;
+  background: #be3c2e; /* Your Brand Red */
+  padding: 2.5rem 1.5rem;
   border-radius: 20px;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  height: 100%; /* Ensures all cards in a row have equal height */
 
   &:hover {
     transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(190, 60, 46, 0.3);
   }
 `;
 
 const IconWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1.2rem;
   border-radius: 50%;
   margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1.35rem; /* Slightly smaller to fit 4 columns better */
   font-weight: 700;
   margin-bottom: 1rem;
 `;
 
 const CardDescription = styled.p`
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   opacity: 0.9;
 `;
@@ -102,7 +109,7 @@ const servicesData = [
 
 function Services() {
   return (
-    <ServicesSection>
+    <ServicesSection id="services-section">
       <SectionHeader>
         <h2>Our Premium Services</h2>
         <p>Crafted for businesses seeking high-impact, visually elevated marketing experiences.</p>

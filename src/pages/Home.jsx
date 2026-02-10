@@ -4,7 +4,7 @@ import Services from "./services";
 import RecentWork from "../components/RecentWork";
 import ContactSection from "../components/ContactSection";
 const HeroContainer = styled.section`
-  height: 90vh; /* Adjust based on your header height */
+  height: 80vh; /* Adjust based on your header height */
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
               url(${heroBg});
   background-size: cover;
