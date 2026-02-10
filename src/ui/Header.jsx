@@ -99,6 +99,7 @@ function Header() {
       </Link>
 
       <Nav>
+         <StyledNavLink to="/">Home</StyledNavLink>
         <StyledNavLink to="/villa-owner">For Villa Owners</StyledNavLink>
         <StyledNavLink to="/property-marketing">Property Marketing</StyledNavLink>
         <StyledNavLink to="/service">Our Services</StyledNavLink>
@@ -106,7 +107,7 @@ function Header() {
         <a href="tel:+918591131447" style={{ textDecoration: 'none' }}>
           <ConnectButton>
             <Phone size={18} />
-            Call-Us
+            Connect-Us
           </ConnectButton>
         </a>
       </Nav>
