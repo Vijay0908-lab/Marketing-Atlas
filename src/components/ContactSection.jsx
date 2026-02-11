@@ -18,9 +18,9 @@ const SectionContainer = styled.section`
 // Why Contact Us Initial Section
 const WhyContactContainer = styled.div`
   max-width: 600px;
-  margin-top: 0;
+  margin: 0 auto;
   text-align: center;
-  padding: 1rem 2rem;
+  padding: 0rem 2rem;
 
   h2 {
     font-size: 2.5rem;
@@ -32,16 +32,18 @@ const WhyContactContainer = styled.div`
   ul {
     list-style: none;
     padding: 0;
-    margin: 2rem 0;
+    margin: 2rem auto;
     text-align: left;
+    max-width: 400px;
   }
 
   li {
     font-size: 1.2rem;
     color: #374151;
     margin-bottom: 1rem;
-    padding-left: 1.5rem;
+    padding-left: 1.2rem;
     position: relative;
+    line-height: 1.5;
     
     &:before {
       content: "•";
@@ -49,6 +51,7 @@ const WhyContactContainer = styled.div`
       font-weight: bold;
       position: absolute;
       left: 0;
+      top: 0;
     }
   }
 `;
@@ -256,7 +259,8 @@ const Socials = styled.div`
 const FormSide = styled.div`
   flex: 1.2;
   position: relative;
-  
+  padding-top: 20px;
+  margn-top:20px;
   h2 { 
     font-size: 1.8rem; 
     color: #101826;
@@ -282,6 +286,7 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 1.2rem;
   
   &:hover {
     background: #f3f4f6;
