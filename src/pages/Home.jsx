@@ -8,7 +8,7 @@ const HeroContainer = styled.section`
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
               url(${heroBg});
   background-size: cover;
-  background-position: center;
+  background-position: center;  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,7 +102,7 @@ function Home() {
         <OutlineButton>View Services</OutlineButton>
       </ButtonGroup>
     </HeroContainer>
-    <div id="services-section">
+    <div id="services-section" >
         <Services />
       </div>
       <div id="recent-work-section">

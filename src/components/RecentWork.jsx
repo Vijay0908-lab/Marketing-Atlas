@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaExpand, FaTimes, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
@@ -56,7 +56,7 @@ const HeaderText = styled.div`
     line-height: 1.2;
   }
   p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #4b5563;
     max-width: 550px;
   }
@@ -65,7 +65,9 @@ const HeaderText = styled.div`
 const NavButtons = styled.div`
   display: flex;
   gap: 0.8rem;
-
+  @media (max-width: 768px) {
+    display: none;
+  }
   .nav-btn {
     width: 54px;
     height: 54px;
@@ -126,11 +128,116 @@ const VideoWrapper = styled.div`
   position: relative;
   height: 500px;
   background: #000;
+  cursor: pointer;
   
   video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &:hover .video-controls {
+    opacity: 1;
+  }
+`;
+
+const VideoControls = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+`;
+
+const ControlButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background: rgba(230, 57, 70, 0.9);
+    transform: scale(1.1);
+  }
+`;
+
+const FullscreenModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+`;
+
+const ModalContent = styled.div`
+  position: relative;
+  width: 90vw;
+  max-width: 1200px;
+  height: 80vh;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(230, 57, 70, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+
+  &:hover {
+    background: rgba(230, 57, 70, 1);
+    transform: scale(1.1);
+  }
+`;
+
+const ModalInfo = styled.div`
+  position: absolute;
+  bottom: -80px;
+  left: 0;
+  color: white;
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+    opacity: 0.8;
   }
 `;
 
@@ -165,20 +272,22 @@ const CardInfo = styled.div`
 
 // --- Data ---
 const VILLA_DATA = [
-  { id: 1, title: "The Gable House", location: "Igatpuri", video: greenscapesVilla, tag: "2 BHK" },
-  { id: 2, title: "Celestia Villa", location: "Igatpuri", video: heaven21SiteFinal1, tag: "2 BHK" },
-  { id: 3, title: "CloudHaven", location: "Igatpuri", video: heaven21SiteFinal, tag: "11 BHK" },
-  { id: 4, title: "Tiny Trail House", location: "Alibaug", video: nivantSiteFinal, tag: "3 BHK" },
-  { id: 5, title: "Azure Estate", location: "Lonavala", video: novaraVillaWebsite, tag: "4 BHK" },
-  { id: 6, title: "Emerald Heights", location: "Nashik", video: sharvillaWebsite, tag: "5 BHK" },
-  { id: 7, title: "The Glass House", location: "Karjat", video: skyvaleWebsite, tag: "3 BHK" },
-  { id: 8, title: "Royal Palms", location: "Alibaug", video: tasaFarmsWebsite, tag: "6 BHK" },
-  { id: 9, title: "Whispering Pines", location: "Mahabaleshwar", video: villaDeBrisa, tag: "4 BHK" },
-  { id: 10, title: "Sunset Retreat", location: "Goa", video: villaDeBrisa, tag: "2 BHK" } 
+  { id: 1, title: "The Gable House", location: "Igatpuri", video: greenscapesVilla},
+  { id: 2, title: "Celestia Villa", location: "Igatpuri", video: heaven21SiteFinal1},
+  { id: 3, title: "CloudHaven", location: "Igatpuri", video: heaven21SiteFinal},
+  { id: 4, title: "Tiny Trail House", location: "Alibaug", video: nivantSiteFinal},
+  { id: 5, title: "Azure Estate", location: "Lonavala", video: novaraVillaWebsite},
+  { id: 6, title: "Emerald Heights", location: "Nashik", video: sharvillaWebsite},
+  { id: 7, title: "The Glass House", location: "Karjat", video: skyvaleWebsite},
+  { id: 8, title: "Royal Palms", location: "Alibaug", video: tasaFarmsWebsite},
+  { id: 9, title: "Whispering Pines", location: "Mahabaleshwar", video: villaDeBrisa},
+  { id: 10, title: "Sunset Retreat", location: "Goa", video: villaDeBrisa} 
 ];
 
 function RecentWork() {
   const videoRefs = useRef([]);
+  const [fullscreenVideo, setFullscreenVideo] = useState(null);
+  const [videoMuted, setVideoMuted] = useState({});
 
   const handleSlideChange = (swiper) => {
     videoRefs.current.forEach((video, idx) => {
@@ -193,6 +302,40 @@ function RecentWork() {
       }
     });
   };
+
+  const openFullscreen = (villa, videoIndex) => {
+    setFullscreenVideo({ villa, videoIndex });
+  };
+
+  const closeFullscreen = () => {
+    setFullscreenVideo(null);
+  };
+
+  const toggleMute = (videoIndex, event) => {
+    event.stopPropagation();
+    const video = videoRefs.current[videoIndex];
+    if (video) {
+      video.muted = !video.muted;
+      setVideoMuted(prev => ({
+        ...prev,
+        [videoIndex]: video.muted
+      }));
+    }
+  };
+
+  // Handle escape key to close modal
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeFullscreen();
+      }
+    };
+
+    if (fullscreenVideo) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [fullscreenVideo]);
 
   return (
     <SectionWrapper>
@@ -231,7 +374,7 @@ function RecentWork() {
           {VILLA_DATA.map((villa, idx) => (
             <SwiperSlide key={villa.id}>
               <Card>
-                <VideoWrapper>
+                <VideoWrapper onClick={() => openFullscreen(villa, idx)}>
                   <video 
                     ref={el => videoRefs.current[idx] = el}
                     muted 
@@ -241,7 +384,26 @@ function RecentWork() {
                   >
                     <source src={villa.video} type="video/mp4" />
                   </video>
-                  <PropertyTag>{villa.tag}</PropertyTag>
+                  
+             
+                  
+                  <VideoControls className="video-controls">
+                    <ControlButton 
+                      onClick={(e) => toggleMute(idx, e)}
+                      title={videoMuted[idx] !== false ? "Unmute" : "Mute"}
+                    >
+                      {videoMuted[idx] !== false ? <FaVolumeMute /> : <FaVolumeUp />}
+                    </ControlButton>
+                    <ControlButton 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openFullscreen(villa, idx);
+                      }}
+                      title="View Fullscreen"
+                    >
+                      <FaExpand />
+                    </ControlButton>
+                  </VideoControls>
                 </VideoWrapper>
 
                 <CardInfo>
@@ -253,6 +415,31 @@ function RecentWork() {
           ))}
         </StyledSwiper>
       </Container>
+
+      {/* Fullscreen Video Modal */}
+      {fullscreenVideo && (
+        <FullscreenModal onClick={closeFullscreen}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={closeFullscreen}>
+              <FaTimes />
+            </CloseButton>
+            
+            <video 
+              autoPlay 
+              controls 
+              loop 
+              playsInline
+            >
+              <source src={fullscreenVideo.villa.video} type="video/mp4" />
+            </video>
+            
+            <ModalInfo>
+              <h3>{fullscreenVideo.villa.title}</h3>
+              <p>{fullscreenVideo.villa.location}, Maharashtra</p>
+            </ModalInfo>
+          </ModalContent>
+        </FullscreenModal>
+      )}
     </SectionWrapper>
   );
 }
